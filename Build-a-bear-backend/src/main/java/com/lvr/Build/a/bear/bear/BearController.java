@@ -12,7 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"${client}"})
+@CrossOrigin(origins = {"http://localhost:5173"})
 @RequestMapping(BEARS)
 public class BearController {
   private final BearService bearService;
