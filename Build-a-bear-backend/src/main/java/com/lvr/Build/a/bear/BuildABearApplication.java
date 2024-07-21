@@ -10,19 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @AllArgsConstructor
 @SpringBootApplication
-public class BuildABearApplication implements CommandLineRunner {
-  BearRepository bearRepository;
+public class BuildABearApplication {
 
   public static void main(String[] args) {
     SpringApplication app = new SpringApplication(BuildABearApplication.class);
     app.setBanner(new CustomBanner());
     app.run(args);
-  }
-
-  @Override
-  public void run(String... args) throws Exception {
-    bearRepository.save(new Bear("Jannie"));
-    bearRepository.save(new Bear("Klaas"));
-    bearRepository.save(new Bear("Anja"));
   }
 }

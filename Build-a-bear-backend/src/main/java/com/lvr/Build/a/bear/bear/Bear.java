@@ -1,9 +1,11 @@
 package com.lvr.Build.a.bear.bear;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.lvr.Build.a.bear.bearcolor.BearColor;
+import com.lvr.Build.a.bear.outfit.Outfit;
+import jakarta.persistence.*;
+
 import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,19 @@ public class Bear {
 
   @Setter private String name;
 
-  public Bear(String name) {
+  @ManyToOne
+  @JoinColumn(name = "color_id")
+  @Setter
+  private BearColor color;
+
+  @ManyToOne
+  @JoinColumn(name = "outfit_id")
+  @Setter
+  private Outfit outfit;
+
+  public Bear(String name, BearColor color, Outfit outfit) {
     this.name = name;
+    this.color = color;
+    this.outfit = outfit;
   }
 }

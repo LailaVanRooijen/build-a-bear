@@ -18,19 +18,19 @@ public class BearController {
   private final BearService bearService;
 
   @GetMapping
-  public ResponseEntity<List<Bear>> getAll() {
+  public ResponseEntity<List<GetBearDto>> getAll() {
     return ResponseEntity.ok(bearService.getAll());
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Bear> getAllById(@PathVariable UUID id) {
+  public ResponseEntity<GetBearDto> getAllById(@PathVariable UUID id) {
     return ResponseEntity.ok(bearService.getById(id));
   }
 
   @PostMapping
   public ResponseEntity<Bear> create(@RequestBody BearCreationDto dto) {
-    Bear bear = dto.toBear();
-    bearService.save(bear);
+    System.out.println("HELLO!");
+    Bear bear = bearService.save(dto);
     URI location =
         ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/id")

@@ -1,5 +1,7 @@
 package com.lvr.Build.a.bear.bear;
 
+import com.lvr.Build.a.bear.bearcolor.ColorRepository;
+import com.lvr.Build.a.bear.outfit.OutfitRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
@@ -10,17 +12,23 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BearService {
   private final BearRepository bearRepository;
+  private final ColorRepository colorRepository;
+  private final OutfitRepository outfitRepository;
 
-  public List<Bear> getAll() {
-    return bearRepository.findAll();
+  public List<GetBearDto> getAll() {
+    List<Bear> bears = bearRepository.findAll();
+    return bears.stream().map(GetBearDto::converToDto).toList();
   }
 
-  public Bear getById(UUID id) {
-    return bearRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+  public GetBearDto getById(UUID id) {
+    Bear bear = bearRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    return GetBearDto.converToDto(bear);
   }
 
-  public void save(Bear bear) {
+  public Bear save(BearCreationDto dto) {
+    Bear bear = dto.toBear(colorRepository, outfitRepository);
     bearRepository.save(bear);
+    return null;
   }
 
   public Bear update(UUID id, Bear patch) {

@@ -1,4 +1,4 @@
-import Bear from "../assets/bear.png";
+import Bear from "../assets/logo.png";
 const Logo = ({ style }: LogoProps) => {
   return <img className={style} src={Bear} alt="bear" />;
 };
