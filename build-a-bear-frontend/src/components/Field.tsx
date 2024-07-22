@@ -14,8 +14,8 @@ const Field: React.FC<FieldProps> = ({ style, content, label, textColor }) => {
 export default Field;
 
 interface FieldProps {
-  style: string;
+  style?: string;
   content: string;
-  label: string;
-  textColor: string;
+  label?: string;
+  textColor?: string;
 }

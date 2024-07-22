@@ -16,7 +16,6 @@ import lombok.Setter;
 public class Outfit {
   @Id @GeneratedValue UUID id;
 
-  // TODO constructor with preset outfits?
   @Setter private String name;
   @Setter private String head;
   @Setter private String chest;

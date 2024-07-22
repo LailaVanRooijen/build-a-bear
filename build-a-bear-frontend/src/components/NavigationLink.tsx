@@ -9,7 +9,7 @@ const NavigationLink = ({ linkTo, style }: NavigationLinkProps) => {
         navigate(`/${linkTo}`);
       }}
     >
-      {linkTo.replace("-", " ")}
+      {linkTo}
     </li>
   );
 };

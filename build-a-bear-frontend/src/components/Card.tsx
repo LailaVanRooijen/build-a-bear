@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import BearImg from "../assets/bear.png";
-import { IBear } from "../interfaces/Ibear";
+import { IBear } from "../interfaces/IBear";
 import CardRow from "./CardRow";
 
 const Card: React.FC<CardProps> = ({ bear }) => {
@@ -18,8 +18,9 @@ const Card: React.FC<CardProps> = ({ bear }) => {
         {bear.name}
       </h6>
       <CardRow label={"color"} content={bear.color} />
-      <CardRow label={"TODO"} content={"pattern"} />
-      <CardRow label={"TODO"} content={"fur type"} />
+      <CardRow label={"voice"} content={bear.voice} />
+      <CardRow label={"pattern"} content={bear.furPattern} />
+      <CardRow label={"fur type"} content={bear.furType} />
       <CardRow label={"outfit"} content={bear.outfit} />
       <CardRow label={"head"} content={bear.head} />
       <CardRow label={"chest"} content={bear.chest} />

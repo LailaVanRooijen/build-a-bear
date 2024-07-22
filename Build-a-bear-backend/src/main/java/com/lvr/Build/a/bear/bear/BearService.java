@@ -17,12 +17,12 @@ public class BearService {
 
   public List<GetBearDto> getAll() {
     List<Bear> bears = bearRepository.findAll();
-    return bears.stream().map(GetBearDto::converToDto).toList();
+    return bears.stream().map(GetBearDto::convertToDto).toList();
   }
 
   public GetBearDto getById(UUID id) {
     Bear bear = bearRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-    return GetBearDto.converToDto(bear);
+    return GetBearDto.convertToDto(bear);
   }
 
   public Bear save(BearCreationDto dto) {
