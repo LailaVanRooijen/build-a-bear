@@ -28,6 +28,7 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
           handleChange(e.target.value);
         }}
       >
+        <option className={`${bgAndTxt}`}>Select</option>
         {options &&
           options.map((option: string) => (
             <option

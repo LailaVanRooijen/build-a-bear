@@ -19,6 +19,10 @@ public class OutfitService {
     return outfitRepository.findById(id).orElseThrow(EntityNotFoundException::new);
   }
 
+  public Outfit getByName(String name) {
+    return outfitRepository.findByNameIgnoreCase(name).orElseThrow(EntityNotFoundException::new);
+  }
+
   public void save(Outfit outfit) {
     outfitRepository.save(outfit);
   }

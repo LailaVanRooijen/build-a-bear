@@ -18,8 +18,13 @@ public class BearController {
   private final BearService bearService;
 
   @GetMapping
-  public ResponseEntity<List<GetBearDto>> getAll() {
-    return ResponseEntity.ok(bearService.getAll());
+  public ResponseEntity<List<GetBearDto>> getAll(
+      @RequestParam(required = false, name = "color") List<String> colors,
+      @RequestParam(required = false, name = "fur-type") List<String> furTypes,
+      @RequestParam(required = false, name = "fur-pattern") List<String> furPatterns,
+      @RequestParam(required = false, name = "voice") List<String> voices,
+      @RequestParam(required = false, name = "outfit") List<String> outfits) {
+    return ResponseEntity.ok(bearService.getAll(colors, furTypes, furPatterns, voices, outfits));
   }
 
   @GetMapping("/{id}")

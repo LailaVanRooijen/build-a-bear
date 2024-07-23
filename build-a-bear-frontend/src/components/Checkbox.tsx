@@ -4,12 +4,20 @@ const Checkbox: React.FC<CheckboxProps> = ({
   label,
   content,
   customCheckmark,
+  handleChange,
 }) => {
   const checkmarkContent = customCheckmark ? customCheckmark : "✓";
 
   return (
     <div className="flex items-center">
       <input
+        onChange={(e) => {
+          handleChange(
+            label.replace(" ", "-").toLowerCase(),
+            content,
+            e.target.checked
+          );
+        }}
         type="checkbox"
         id={content}
         name={content}
@@ -19,7 +27,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
           "--checkmark-content": `'${checkmarkContent}'`,
         }}
       />
-      <label htmlFor={content}>{label}</label>
+      <label htmlFor={content}>{content}</label>
     </div>
   );
 };
@@ -30,4 +38,5 @@ interface CheckboxProps {
   label: string;
   content: string;
   customCheckmark?: string;
+  handleChange: (label: string, target: string, isChecked: boolean) => void;
 }

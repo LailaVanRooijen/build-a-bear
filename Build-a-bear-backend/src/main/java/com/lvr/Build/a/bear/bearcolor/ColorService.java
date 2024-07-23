@@ -19,6 +19,10 @@ public class ColorService {
     return colorRepository.findById(id).orElseThrow(EntityNotFoundException::new);
   }
 
+  public BearColor getByColor(String color) {
+    return colorRepository.findByColorIgnoreCase(color).orElseThrow(EntityNotFoundException::new);
+  }
+
   public void save(BearColor color) {
     colorRepository.save(color);
   }

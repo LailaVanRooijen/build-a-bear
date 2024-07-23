@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "../components/Button";
+import DisplayRow from "../components/DisplayRow";
 import DropdownSelect from "../components/DropdownSelect";
 import FieldInput from "../components/FieldInput";
 import Page from "../components/Page";
@@ -19,12 +20,14 @@ const CreateBear = () => {
   const [furTypes, setFurTypes] = useState<IFurType[] | null>(null);
   const [furPatterns, setFurPatterns] = useState<IFurPattern[] | null>(null);
   const [outfits, setOutfits] = useState<IOutfit[] | null>(null);
+  const [selectedOutfit, setSelectedOutfit] = useState<IOutfit | null>(null);
   const formRef = useRef<Form>({
     name: "",
     color: "",
     voice: "",
     furType: "",
     furPattern: "",
+    outfit: "",
   });
 
   const fetch: Fetch = (url, setFunction) => {
@@ -51,10 +54,13 @@ const CreateBear = () => {
 
   return (
     <Page style="flex flex-col items-center justify-center">
+      <h1 className="cursor-pointer my-12 text-5xl font-extrabold text-purple h-fit p-6 rounded-lg bg-gradient-to-br from-sand from-10% to-maize to-90% border-4 border-white hover:bg-gradient-to-tr hover:shadow-card-hover-sand">
+        Build-a-bear
+      </h1>
       <div className="border-2 bg-maize text-purple font-extrabold border-purple rounded-lg p-12 w-1/2">
         <FieldInput
-          label={"name"}
-          content={"McFluffyButt"}
+          label={"Name"}
+          content={""}
           style={"border-b-2 border-purple border-dotted"}
           bgAndTxt={"bg-maize text-purple border-purple"}
           handleChange={(value) => {
@@ -69,7 +75,6 @@ const CreateBear = () => {
             bgAndTxt={"bg-maize text-purple  border-purple"}
             handleChange={(value) => {
               formRef.current.color = value;
-              console.log("ref: ", formRef);
             }}
           />
         )}
@@ -81,7 +86,6 @@ const CreateBear = () => {
             bgAndTxt={"bg-maize text-purple border-purple"}
             handleChange={(value) => {
               formRef.current.voice = value;
-              console.log("ref: ", formRef);
             }}
           />
         )}
@@ -93,7 +97,6 @@ const CreateBear = () => {
             bgAndTxt={"bg-maize text-purple border-purple"}
             handleChange={(value) => {
               formRef.current.furType = value;
-              console.log("ref: ", formRef);
             }}
           />
         )}
@@ -105,10 +108,46 @@ const CreateBear = () => {
             bgAndTxt={"bg-maize text-purple border-purple"}
             handleChange={(value) => {
               formRef.current.furPattern = value;
-              console.log("ref: ", formRef);
             }}
           />
         )}
+
+        {outfits && (
+          <DropdownSelect
+            options={outfits.map((outfit) => outfit.name)}
+            label={"outfit"}
+            style={"border-b-2 border-purple border-dotted"}
+            bgAndTxt={"bg-maize text-purple border-purple"}
+            handleChange={(value) => {
+              formRef.current.outfit = value;
+              const selected = outfits.find((outfit) => outfit.name === value);
+              setSelectedOutfit(selected || null);
+            }}
+          />
+        )}
+
+        <div className="w-full min-h-72 rounded-lg p-3 mt-6">
+          <h1 className="text-center p-4 font-extrabold text-2xl">
+            {selectedOutfit ? "Selected outfit" : "No outfit selected"}
+          </h1>
+          {selectedOutfit && (
+            <>
+              <div>
+                <DisplayRow
+                  label={"Head"}
+                  content={selectedOutfit.head}
+                  isDefaultStyle={true}
+                />
+                <DisplayRow label={"Chest"} content={selectedOutfit.chest} />
+                <DisplayRow
+                  label={"Feet"}
+                  content={selectedOutfit.feet}
+                  isDefaultStyle={true}
+                />
+              </div>
+            </>
+          )}
+        </div>
       </div>
       <Button handleClick={submitForm} content={"Submit"} />
     </Page>
@@ -123,6 +162,7 @@ interface Form {
   voice: string;
   furType: string;
   furPattern: string;
+  outfit: string;
 }
 
 interface Fetch {

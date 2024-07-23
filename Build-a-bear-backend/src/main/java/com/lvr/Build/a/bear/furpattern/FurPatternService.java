@@ -9,29 +9,36 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class FurPatternService {
-    private final FurPatternRepository furPatternRepository;
+  private final FurPatternRepository furPatternRepository;
 
-    public List<FurPattern> getAll() {
-        return furPatternRepository.findAll();
-    }
+  public List<FurPattern> getAll() {
+    return furPatternRepository.findAll();
+  }
 
-    public FurPattern getById(UUID id) {
-        return furPatternRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-    }
+  public FurPattern getById(UUID id) {
+    return furPatternRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+  }
 
-    public void save(FurPattern furPattern) {
-        furPatternRepository.save(furPattern);
-    }
+  public FurPattern getByFurPattern(String furPattern) {
+    return furPatternRepository
+        .findByFurPatternIgnoreCase(furPattern)
+        .orElseThrow(EntityNotFoundException::new);
+  }
 
-    public FurPattern update(UUID id, FurPattern patch) {
-        FurPattern patchedFurPattern = furPatternRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        if(patch.getFurPattern()!=null) patchedFurPattern.setFurPattern(patch.getFurPattern());
-        furPatternRepository.save(patchedFurPattern);
-        return patchedFurPattern;
-    }
+  public void save(FurPattern furPattern) {
+    furPatternRepository.save(furPattern);
+  }
 
-    public void delete(UUID id) {
+  public FurPattern update(UUID id, FurPattern patch) {
+    FurPattern patchedFurPattern =
         furPatternRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        furPatternRepository.deleteById(id);
-    }
+    if (patch.getFurPattern() != null) patchedFurPattern.setFurPattern(patch.getFurPattern());
+    furPatternRepository.save(patchedFurPattern);
+    return patchedFurPattern;
+  }
+
+  public void delete(UUID id) {
+    furPatternRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    furPatternRepository.deleteById(id);
+  }
 }

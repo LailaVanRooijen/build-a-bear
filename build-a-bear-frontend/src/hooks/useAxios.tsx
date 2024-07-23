@@ -4,7 +4,10 @@ const URL = "http://localhost:8080/api/v1/";
 
 export default function useAxios(): AxiosProps {
   const getRequest = (path, params) => {
-    return axios.get(URL + path, { params }).then((response) => response.data);
+    console.log("fetching: ", path, " params: ", params);
+    return axios
+      .get(URL + path, { params, paramsSerializer: { indexes: null } })
+      .then((response) => response.data);
   };
 
   const postRequest = (path, postBody) => {
@@ -27,5 +30,5 @@ export default function useAxios(): AxiosProps {
 }
 
 interface AxiosProps {
-  getRequest: (path: string, params?: string) => Promise<Any>;
+  getRequest: (path: string, params?: {}) => Promise<Any>;
 }

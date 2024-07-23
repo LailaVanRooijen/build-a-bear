@@ -9,29 +9,33 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class VoiceService {
-    private final VoiceRepository voiceRepository;
+  private final VoiceRepository voiceRepository;
 
-    public List<Voice> getAll() {
-        return voiceRepository.findAll();
-    }
+  public List<Voice> getAll() {
+    return voiceRepository.findAll();
+  }
 
-    public Voice getById(UUID id) {
-        return voiceRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-    }
+  public Voice getById(UUID id) {
+    return voiceRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+  }
 
-    public void save(Voice voice) {
-        voiceRepository.save(voice);
-    }
+  public Voice getByVoice(String voice) {
+    return voiceRepository.findByVoiceIgnoreCase(voice).orElseThrow(EntityNotFoundException::new);
+  }
 
-    public Voice update(UUID id, Voice patch) {
-        Voice patchedVoice = voiceRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        if(patch.getVoice()!=null) patchedVoice.setVoice(patch.getVoice());
-        voiceRepository.save(patchedVoice);
-        return patchedVoice;
-    }
+  public void save(Voice voice) {
+    voiceRepository.save(voice);
+  }
 
-    public void delete(UUID id) {
-        voiceRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        voiceRepository.deleteById(id);
-    }
+  public Voice update(UUID id, Voice patch) {
+    Voice patchedVoice = voiceRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    if (patch.getVoice() != null) patchedVoice.setVoice(patch.getVoice());
+    voiceRepository.save(patchedVoice);
+    return patchedVoice;
+  }
+
+  public void delete(UUID id) {
+    voiceRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    voiceRepository.deleteById(id);
+  }
 }

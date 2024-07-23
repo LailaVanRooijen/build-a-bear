@@ -22,7 +22,10 @@ export interface IFurPattern {
 
 export interface IOutfit {
   id: UUID;
-  outfit: string;
+  name: string;
+  head: string;
+  chest: string;
+  feet: string;
 }
 
 export interface IHead {
