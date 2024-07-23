@@ -16,8 +16,8 @@ const Filter: React.FC<FilterProps> = ({ title, items, label, addFilter }) => {
           }`}
         />
       </div>
-      {items && showFilters && (
-        <ul className={showFilters ? "" : "hidden"}>
+      {items && (
+        <ul className={showFilters ? "" : "h-1 overflow-hidden"}>
           {items.map((item: Item) => (
             <li key={item.id}>
               <Checkbox
