@@ -4,7 +4,6 @@ const URL = "http://localhost:8080/api/v1/";
 
 export default function useAxios(): AxiosProps {
   const getRequest = (path, params) => {
-    console.log("fetching: ", path, " params: ", params);
     return axios
       .get(URL + path, { params, paramsSerializer: { indexes: null } })
       .then((response) => response.data);

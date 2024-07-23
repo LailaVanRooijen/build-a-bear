@@ -3,8 +3,7 @@ import { MdExpandCircleDown } from "react-icons/md";
 import Checkbox from "./Checkbox";
 
 const Filter = ({ title, items, label, addFilter }) => {
-  const [showFilters, setShowFilters] = useState(false);
-
+  const [showFilters, setShowFilters] = useState(true);
   return (
     <div>
       <div className="border-b-2 p-2 flex flex-row items-center justify-between">

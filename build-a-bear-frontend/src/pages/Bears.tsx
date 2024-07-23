@@ -1,20 +1,26 @@
 import { useEffect, useRef, useState } from "react";
-import { MdExpandCircleDown } from "react-icons/md";
 import Card from "../components/Card";
-import Checkbox from "../components/Checkbox";
+import Filter from "../components/Filter";
 import Page from "../components/Page";
 import Panel from "../components/Panel";
 import useAxios from "../hooks/useAxios";
 import { IBear } from "../interfaces/IBear";
-import { IColor, IFurType } from "../interfaces/IBearProps";
+import {
+  IColor,
+  IFurPattern,
+  IFurType,
+  IOutfit,
+  IVoice,
+} from "../interfaces/IBearProps";
 
 const Bears = () => {
   const { getRequest } = useAxios();
   const [bears, setBears] = useState<IBear[] | null>(null);
   const [colors, setColors] = useState<IColor[] | null>(null);
   const [furTypes, setFurTypes] = useState<IFurType[] | null>(null);
-  const [showFurTypes, setShowFurTypes] = useState<boolean>(true);
-  const [showColorFilters, setShowColorFilters] = useState<boolean>(true);
+  const [furPatterns, setFurPatterns] = useState<IFurPattern[] | null>(null);
+  const [voices, setVoices] = useState<IVoice[] | null>(null);
+  const [outfits, setOutfits] = useState<IOutfit[] | null>(null);
   const [filters, setFilters] = useState<{ [key: string]: string[] }>({});
   const refFilters = useRef<{ [key: string]: string }>({});
 
@@ -27,10 +33,12 @@ const Bears = () => {
   useEffect(() => {
     fetch<IColor>("colors", {}, setColors);
     fetch<IFurType>("fur-types", {}, setFurTypes);
+    fetch<IFurPattern>("fur-patterns", {}, setFurPatterns);
+    fetch<IVoice>("voices", {}, setVoices);
+    fetch<IOutfit>("outfits", {}, setOutfits);
   }, []);
 
   useEffect(() => {
-    console.log(filters);
     fetch<IBear>("bears", filters, setBears);
   }, [filters]);
 
@@ -54,71 +62,91 @@ const Bears = () => {
     <>
       <Page style={"flex"}>
         <Panel style={"w-1/6 p-6"}>
-          <div className="border-b-2 p-2 flex flex-row items-center justify-between">
-            Filter by color{" "}
-            <MdExpandCircleDown
-              onClick={() => {
-                setShowColorFilters(!showColorFilters);
-              }}
-              className={`text-maize cursor-pointer text-xl hover:text-dark-maize transform ${
-                showColorFilters ? "rotate-180" : ""
-              }`}
-            />
-          </div>
-          {colors && showColorFilters && (
-            <ul className={showColorFilters ? "" : "hidden"}>
-              {colors.map((color: IColor) => (
-                <li key={color.color}>
-                  <Checkbox
-                    label={"colors"}
-                    content={color.color}
-                    customCheckmark="🐻"
-                    handleChange={(label, target, isChecked) => {
-                      addFilter(label, target, isChecked);
-                    }}
-                  />
-                </li>
-              ))}
-            </ul>
-          )}
-          <div className="border-b-2 p-2 flex flex-row items-center justify-between">
-            Filter by Fur Type{" "}
-            <MdExpandCircleDown
-              onClick={() => {
-                setShowFurTypes(!showFurTypes);
-              }}
-              className={`text-maize cursor-pointer text-xl hover:text-dark-maize transform ${
-                showFurTypes ? "rotate-180" : ""
-              }`}
-            />
-          </div>
-          {furTypes && showFurTypes && (
-            <ul>
-              {furTypes.map((item: IFurType) => (
-                <li key={item.furType}>
-                  <Checkbox
-                    label={"Fur Type"}
-                    content={item.furType}
-                    customCheckmark="🐻"
-                    handleChange={(label, target, isChecked) => {
-                      addFilter(label, target, isChecked);
-                    }}
-                  />
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {/* {colors && (
+          {colors && (
             <Filter
               title="Color"
-              items={colors.map((color) => ({ value: color.color }))}
-              label="colors"
-              addFilter={(label, target, isChecked) => {
+              items={colors.map((color) => ({
+                value: color.color,
+                id: color.id,
+              }))}
+              label="color"
+              addFilter={(
+                label: string,
+                target: string,
+                isChecked: boolean
+              ) => {
                 addFilter(label, target, isChecked);
               }}
             />
-          )} */}
+          )}
+          {voices && (
+            <Filter
+              title="Voice"
+              items={voices.map((item) => ({
+                value: item.voice,
+                id: item.id,
+              }))}
+              label="voice"
+              addFilter={(
+                label: string,
+                target: string,
+                isChecked: boolean
+              ) => {
+                addFilter(label, target, isChecked);
+              }}
+            />
+          )}
+          {furPatterns && (
+            <Filter
+              title="Fur Pattern"
+              items={furPatterns.map((item) => ({
+                value: item.furPattern,
+                id: item.id,
+              }))}
+              label="fur-pattern"
+              addFilter={(
+                label: string,
+                target: string,
+                isChecked: boolean
+              ) => {
+                addFilter(label, target, isChecked);
+              }}
+            />
+          )}
+          {furTypes && (
+            <Filter
+              title="Fur Type"
+              items={furTypes.map((item) => ({
+                value: item.furType,
+                id: item.id,
+              }))}
+              label="fur-type"
+              addFilter={(
+                label: string,
+                target: string,
+                isChecked: boolean
+              ) => {
+                addFilter(label, target, isChecked);
+              }}
+            />
+          )}
+          {outfits && (
+            <Filter
+              title="Outfit"
+              items={outfits.map((item) => ({
+                value: item.name,
+                id: item.id,
+              }))}
+              label="outfit"
+              addFilter={(
+                label: string,
+                target: string,
+                isChecked: boolean
+              ) => {
+                addFilter(label, target, isChecked);
+              }}
+            />
+          )}
         </Panel>
 
         <Panel style={"p-6 w-5/6"}>
