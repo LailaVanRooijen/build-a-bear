@@ -168,7 +168,13 @@ export default Bears;
 interface Fetch {
   <T>(
     url: string,
-    params: {},
+    params: {
+      color?: string[];
+      voice?: string[];
+      "fur-pattern"?: string[];
+      "fur-type"?: string[];
+      outfit?: string[];
+    },
     setFunction: React.Dispatch<React.SetStateAction<T[] | null>>
   ): void;
 }
