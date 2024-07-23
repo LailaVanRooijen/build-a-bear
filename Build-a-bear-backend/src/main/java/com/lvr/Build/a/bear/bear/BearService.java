@@ -10,6 +10,7 @@ import com.lvr.Build.a.bear.furtype.FurTypeService;
 import com.lvr.Build.a.bear.outfit.Outfit;
 import com.lvr.Build.a.bear.outfit.OutfitRepository;
 import com.lvr.Build.a.bear.outfit.OutfitService;
+import com.lvr.Build.a.bear.specification.BearSpecification;
 import com.lvr.Build.a.bear.voice.Voice;
 import com.lvr.Build.a.bear.voice.VoiceService;
 import jakarta.persistence.EntityNotFoundException;
@@ -43,16 +44,16 @@ public class BearService {
     if (colors != null && !colors.isEmpty()) {
       List<BearColor> colorList =
           colors.stream().map(colorService::getByColor).filter(Objects::nonNull).toList();
-      if (!colorList.isEmpty()) {
-        specification = specification.and(BearSpecification.hasColors(colorList));
+      for (BearColor color : colorList) {
+        specification = specification.or(BearSpecification.hasColor(color));
       }
     }
 
     if (furTypes != null && !furTypes.isEmpty()) {
       List<FurType> furTypeList =
           furTypes.stream().map(furTypeService::getByFurType).filter(Objects::nonNull).toList();
-      if (!furTypeList.isEmpty()) {
-        specification = specification.and(BearSpecification.hasFurTypes(furTypeList));
+      for (FurType furType : furTypeList) {
+        specification = specification.or(BearSpecification.hasFurType(furType));
       }
     }
 
@@ -62,24 +63,24 @@ public class BearService {
               .map(furPatternService::getByFurPattern)
               .filter(Objects::nonNull)
               .toList();
-      if (!furPatternList.isEmpty()) {
-        specification = specification.and(BearSpecification.hasFurPatterns(furPatternList));
+      for (FurPattern furPattern : furPatternList) {
+        specification = specification.or(BearSpecification.hasFurPattern(furPattern));
       }
     }
 
     if (voices != null && !voices.isEmpty()) {
       List<Voice> voiceList =
           voices.stream().map(voiceService::getByVoice).filter(Objects::nonNull).toList();
-      if (!voiceList.isEmpty()) {
-        specification = specification.and(BearSpecification.hasVoices(voiceList));
+      for (Voice voice : voiceList) {
+        specification = specification.or(BearSpecification.hasVoice(voice));
       }
     }
 
     if (outfits != null && !outfits.isEmpty()) {
-      List<Outfit> outfitList =
+      List<Outfit> outfitsList =
           outfits.stream().map(outfitService::getByName).filter(Objects::nonNull).toList();
-      if (!outfitList.isEmpty()) {
-        specification = specification.and(BearSpecification.hasOutfits(outfitList));
+      for (Outfit outfit : outfitsList) {
+        specification = specification.or(BearSpecification.hasOutfit(outfit));
       }
     }
 
