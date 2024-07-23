@@ -1,8 +1,9 @@
+import { UUID } from "crypto";
 import { useState } from "react";
 import { MdExpandCircleDown } from "react-icons/md";
 import Checkbox from "./Checkbox";
 
-const Filter = ({ title, items, label, addFilter }) => {
+const Filter: React.FC<FilterProps> = ({ title, items, label, addFilter }) => {
   const [showFilters, setShowFilters] = useState(true);
   return (
     <div>
@@ -17,7 +18,7 @@ const Filter = ({ title, items, label, addFilter }) => {
       </div>
       {items && showFilters && (
         <ul className={showFilters ? "" : "hidden"}>
-          {items.map((item) => (
+          {items.map((item: Item) => (
             <li key={item.id}>
               <Checkbox
                 label={label}
@@ -36,3 +37,13 @@ const Filter = ({ title, items, label, addFilter }) => {
 };
 
 export default Filter;
+interface Item {
+  id: UUID;
+  value: string;
+}
+interface FilterProps {
+  title: string;
+  items: Item[];
+  label: string;
+  addFilter: (label: string, target: string, isChecked: boolean) => void;
+}
