@@ -31,10 +31,9 @@ public class BearController {
   public ResponseEntity<GetBearDto> getAllById(@PathVariable UUID id) {
     return ResponseEntity.ok(bearService.getById(id));
   }
-
+  
   @PostMapping
   public ResponseEntity<Bear> create(@RequestBody BearCreationDto dto) {
-    System.out.println("HELLO!");
     Bear bear = bearService.save(dto);
     URI location =
         ServletUriComponentsBuilder.fromCurrentRequest()
