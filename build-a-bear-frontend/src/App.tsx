@@ -6,6 +6,7 @@ import BearView from "./pages/BearView";
 import CreateBear from "./pages/CreateBear";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/build-a-bear" element={<CreateBear />} />
         <Route path="/bears/:id" element={<BearView />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </>
   );
