@@ -4,8 +4,10 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 import com.lvr.Build.a.bear.jwt.JwtAuthenticationFilter;
 import com.lvr.Build.a.bear.user.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -17,8 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +32,21 @@ public class SecurityConfiguration {
     http.csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(
             request ->
-                request.requestMatchers("/api/v1/auth/**").permitAll().anyRequest().authenticated())
+                request
+                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/**")
+                    .permitAll()
+                    .requestMatchers(
+                        HttpMethod.GET,
+                        "/api/v1/auth/**",
+                        "/api/v1/bears",
+                        "/api/v1/colors",
+                        "/api/v1/fur-types",
+                        "/api/v1/fur-patterns",
+                        "/api/v1/voices",
+                        "/api/v1/outfits")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
         .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
         .authenticationProvider(authenticationProvider())
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

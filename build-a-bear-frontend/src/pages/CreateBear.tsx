@@ -4,6 +4,7 @@ import DisplayRow from "../components/DisplayRow";
 import DropdownSelect from "../components/DropdownSelect";
 import FieldInput from "../components/FieldInput";
 import Page from "../components/Page";
+import { useAuth } from "../context/AuthContext";
 import useAxios from "../hooks/useAxios";
 import {
   IColor,
@@ -14,7 +15,8 @@ import {
 } from "../interfaces/IBearProps";
 
 const CreateBear = () => {
-  const { getRequest } = useAxios();
+  const { token } = useAuth();
+  const { getRequest, postRequest } = useAxios();
   const [colors, setColors] = useState<IColor[] | null>(null);
   const [voices, setVoices] = useState<IVoice[] | null>(null);
   const [furTypes, setFurTypes] = useState<IFurType[] | null>(null);
@@ -30,14 +32,34 @@ const CreateBear = () => {
     outfit: "",
   });
 
+  const containsNullValue = (obj) => {
+    return Object.values(obj).some((value) => value === null);
+  };
+
   const fetch: Fetch = (url, setFunction) => {
-    getRequest(url)
-      .then((response) => {
-        setFunction(response);
-      })
-      .catch((error) => {
-        console.error(error);
+    getRequest(url, {}, token).then((response) => {
+      setFunction(response);
+    });
+  };
+
+  const post: BuildBear = (url) => {
+    const params = {
+      name: formRef.current.name,
+      color: formRef.current.color,
+      voice: formRef.current.voice,
+      furType: formRef.current.furType,
+      furPattern: formRef.current.furPattern,
+      outfit: formRef.current.outfit,
+    };
+    if (containsNullValue(params)) {
+      // do something to alert user
+      console.log("Do something to alert user form is not valid");
+      return;
+    } else {
+      postRequest(url, params, token).then((response) => {
+        //console.log(response);
       });
+    }
   };
 
   useEffect(() => {
@@ -49,7 +71,7 @@ const CreateBear = () => {
   }, []);
 
   const submitForm = () => {
-    console.log("submitForm: ", formRef);
+    post("bears");
   };
 
   return (

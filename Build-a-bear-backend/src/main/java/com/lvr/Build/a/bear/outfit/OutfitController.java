@@ -5,6 +5,8 @@ import static com.lvr.Build.a.bear.appconfiguration.Routes.OUTFITS;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+
+import com.lvr.Build.a.bear.appconfiguration.DuplicateEntityException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +30,8 @@ public class OutfitController {
   }
 
   @PostMapping
-  public ResponseEntity<Outfit> create(@RequestBody OutfitCreationDto dto) {
+  public ResponseEntity<Outfit> create(@RequestBody OutfitCreationDto dto)
+      throws DuplicateEntityException {
     Outfit outfit = dto.toOutfit();
     outfitService.save(outfit);
     URI location =

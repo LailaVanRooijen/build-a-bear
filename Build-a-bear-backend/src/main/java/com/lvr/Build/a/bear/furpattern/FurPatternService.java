@@ -1,5 +1,6 @@
 package com.lvr.Build.a.bear.furpattern;
 
+import com.lvr.Build.a.bear.appconfiguration.DuplicateEntityException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +26,12 @@ public class FurPatternService {
         .orElseThrow(EntityNotFoundException::new);
   }
 
-  public void save(FurPattern furPattern) {
+  public void save(FurPattern furPattern) throws DuplicateEntityException {
+    FurPattern patternDupe =
+        furPatternRepository.findByFurPatternIgnoreCase(furPattern.getFurPattern()).orElse(null);
+    if (patternDupe != null) {
+      throw new DuplicateEntityException("pattern already exists");
+    }
     furPatternRepository.save(furPattern);
   }
 

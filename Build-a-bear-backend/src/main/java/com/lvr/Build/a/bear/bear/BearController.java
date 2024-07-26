@@ -12,7 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:5173"})
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping(BEARS)
 public class BearController {
   private final BearService bearService;
@@ -34,7 +34,6 @@ public class BearController {
 
   @PostMapping
   public ResponseEntity<Bear> create(@RequestBody BearCreationDto dto) {
-    System.out.println("HELLO!");
     Bear bear = bearService.save(dto);
     URI location =
         ServletUriComponentsBuilder.fromCurrentRequest()

@@ -5,6 +5,8 @@ import static com.lvr.Build.a.bear.appconfiguration.Routes.COLORS;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+
+import com.lvr.Build.a.bear.appconfiguration.DuplicateEntityException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +30,8 @@ public class ColorController {
   }
 
   @PostMapping
-  public ResponseEntity<BearColor> create(@RequestBody BearColor color) {
+  public ResponseEntity<BearColor> create(@RequestBody BearColor color)
+      throws DuplicateEntityException {
     colorService.save(color);
     URI location =
         ServletUriComponentsBuilder.fromCurrentRequest()

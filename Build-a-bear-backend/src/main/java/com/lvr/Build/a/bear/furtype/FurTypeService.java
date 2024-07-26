@@ -1,5 +1,6 @@
 package com.lvr.Build.a.bear.furtype;
 
+import com.lvr.Build.a.bear.appconfiguration.DuplicateEntityException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +26,11 @@ public class FurTypeService {
         .orElseThrow(EntityNotFoundException::new);
   }
 
-  public void save(FurType furType) {
+  public void save(FurType furType) throws DuplicateEntityException {
+    FurType typeDupe = furTypeRepository.findByFurTypeIgnoreCase(furType.getFurType()).orElse(null);
+    if (typeDupe != null) {
+      throw new DuplicateEntityException("type already exists");
+    }
     furTypeRepository.save(furType);
   }
 

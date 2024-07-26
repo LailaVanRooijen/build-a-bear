@@ -94,9 +94,10 @@ public class BearService {
   }
 
   public Bear save(BearCreationDto dto) {
-    Bear bear = dto.toBear(colorRepository, outfitRepository);
+    Bear bear =
+        dto.toBear(colorService, voiceService, furTypeService, furPatternService, outfitService);
     bearRepository.save(bear);
-    return null;
+    return bear;
   }
 
   public Bear update(UUID id, Bear patch) {

@@ -25,7 +25,7 @@ const DropdownSelect: React.FC<DropdownSelectProps> = ({
         id={label}
         onChange={(e) => {
           setValue(e.target.value);
-          handleChange(e.target.value);
+          handleChange(e.target.value.trim());
         }}
       >
         <option className={`${bgAndTxt}`}>Select</option>

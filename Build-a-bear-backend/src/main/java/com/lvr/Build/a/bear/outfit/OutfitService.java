@@ -1,5 +1,6 @@
 package com.lvr.Build.a.bear.outfit;
 
+import com.lvr.Build.a.bear.appconfiguration.DuplicateEntityException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,11 @@ public class OutfitService {
     return outfitRepository.findByNameIgnoreCase(name).orElseThrow(EntityNotFoundException::new);
   }
 
-  public void save(Outfit outfit) {
+  public void save(Outfit outfit) throws DuplicateEntityException {
+    Outfit outfitDupe = outfitRepository.findByNameIgnoreCase(outfit.getName()).orElse(null);
+    if (outfitDupe != null) {
+      throw new DuplicateEntityException("outfit already exists");
+    }
     outfitRepository.save(outfit);
   }
 

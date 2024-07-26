@@ -1,5 +1,6 @@
 package com.lvr.Build.a.bear.bearcolor;
 
+import com.lvr.Build.a.bear.appconfiguration.DuplicateEntityException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,11 @@ public class ColorService {
     return colorRepository.findByColorIgnoreCase(color).orElseThrow(EntityNotFoundException::new);
   }
 
-  public void save(BearColor color) {
+  public void save(BearColor color) throws DuplicateEntityException {
+    BearColor colorDupe = colorRepository.findByColorIgnoreCase(color.getColor()).orElse(null);
+    if (colorDupe != null) {
+      throw new DuplicateEntityException("color already exists");
+    }
     colorRepository.save(color);
   }
 

@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import Filter from "../components/Filter";
 import Page from "../components/Page";
 import Panel from "../components/Panel";
+import { useAuth } from "../context/AuthContext";
 import useAxios from "../hooks/useAxios";
 import { IBear } from "../interfaces/IBear";
 import {
@@ -14,6 +15,7 @@ import {
 } from "../interfaces/IBearProps";
 
 const Bears = () => {
+  const { token } = useAuth();
   const { getRequest } = useAxios();
   const [bears, setBears] = useState<IBear[] | null>(null);
   const [colors, setColors] = useState<IColor[] | null>(null);
@@ -36,11 +38,11 @@ const Bears = () => {
     fetch<IFurPattern>("fur-patterns", {}, setFurPatterns);
     fetch<IVoice>("voices", {}, setVoices);
     fetch<IOutfit>("outfits", {}, setOutfits);
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     fetch<IBear>("bears", filters, setBears);
-  }, [filters]);
+  }, [filters, token]);
 
   const addFilter: AddFilter = (label, target, isChecked) => {
     if (isChecked) {

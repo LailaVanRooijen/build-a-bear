@@ -5,6 +5,8 @@ import static com.lvr.Build.a.bear.appconfiguration.Routes.FURTYPES;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+
+import com.lvr.Build.a.bear.appconfiguration.DuplicateEntityException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +30,8 @@ public class FurTypeController {
   }
 
   @PostMapping
-  public ResponseEntity<FurType> create(@RequestBody FurType furType) {
+  public ResponseEntity<FurType> create(@RequestBody FurType furType)
+      throws DuplicateEntityException {
     furTypeService.save(furType);
     URI location =
         ServletUriComponentsBuilder.fromCurrentRequest()

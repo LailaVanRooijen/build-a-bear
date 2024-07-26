@@ -1,5 +1,6 @@
 package com.lvr.Build.a.bear.voice;
 
+import com.lvr.Build.a.bear.appconfiguration.DuplicateEntityException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,11 @@ public class VoiceService {
     return voiceRepository.findByVoiceIgnoreCase(voice).orElseThrow(EntityNotFoundException::new);
   }
 
-  public void save(Voice voice) {
+  public void save(Voice voice) throws DuplicateEntityException {
+    Voice voiceDupe = voiceRepository.findByVoiceIgnoreCase(voice.getVoice()).orElse(null);
+    if (voiceDupe != null) {
+      throw new DuplicateEntityException("Voice already exists");
+    }
     voiceRepository.save(voice);
   }
 
