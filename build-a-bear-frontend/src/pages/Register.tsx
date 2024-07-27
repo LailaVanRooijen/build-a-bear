@@ -13,19 +13,21 @@ const Register = () => {
   const [password, setPassword] = useState<string>();
   const [comfirmPassword, setComfirmPassword] = useState<string>();
   const { register } = useAuth();
-  const [showMsg, setShowMsg] = useState<string>(null);
+  const [showMsg, setShowMsg] = useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   useEffect(() => {}, [showMsg]);
 
-  const showError = (msg) => {
-    setShowMsg(msg);
+  const showError = () => {
+    setShowMsg(true);
     setTimeout(() => {
-      setShowMsg(null);
+      setShowMsg(false);
     }, 3000);
   };
 
   const handleRegister = () => {
     if (password !== comfirmPassword) {
+      setErrorMsg("passwords don't match");
       showError();
       return;
     }
@@ -36,12 +38,20 @@ const Register = () => {
       password === "" ||
       comfirmPassword === ""
     ) {
-      console.log("not all the fields are filled in bro");
+      showError();
       return;
     }
-    register(firstName, lastName, email, password, comfirmPassword).then(
-      navigate("/home")
-    );
+    register(firstName, lastName, email, password, comfirmPassword)
+      .then((response) => {
+        if (response === undefined) {
+          navigate("/home");
+        }
+      })
+      .catch((err) => {
+        setErrorMsg("a user with that email already exists");
+        showError();
+        console.log(err.message);
+      });
   };
 
   return (
@@ -51,7 +61,9 @@ const Register = () => {
           Register
         </h2>
         <div className="w-[500px]">
-          <p className="h-10 text-red-900 font-extrabold">{showMsg}</p>
+          <p className="text-center h-10 text-red-900 font-extrabold">
+            {showMsg ? `${errorMsg}` : ""}
+          </p>
           <FieldInput
             label={"firstname"}
             content={""}
