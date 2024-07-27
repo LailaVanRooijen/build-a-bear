@@ -39,6 +39,7 @@ public class SecurityConfiguration {
                         HttpMethod.GET,
                         "/api/v1/auth/**",
                         "/api/v1/bears",
+                        "/api/v1/bears/**",
                         "/api/v1/colors",
                         "/api/v1/fur-types",
                         "/api/v1/fur-patterns",

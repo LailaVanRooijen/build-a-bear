@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/buy-a-bear" element={<Bears />} />
+        <Route path="/pick-a-bear" element={<Bears />} />
         <Route path="/build-a-bear" element={<CreateBear />} />
         <Route path="/bears/:id" element={<BearView />} />
         <Route path="/login" element={<Login />} />

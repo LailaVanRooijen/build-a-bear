@@ -8,10 +8,10 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(getCookie("token") || null);
   const [user, setUser] = useState(getCookie("user") || null);
+  const { postRequest } = useAxios();
 
   const login = (email: string, password: string) => {
     const body = { email: email, password: password };
-    const { postRequest } = useAxios();
 
     return postRequest("auth/login", body).then((response) => {
       setCookie("user", email);
@@ -26,8 +26,27 @@ export const AuthProvider = ({ children }) => {
     setCookie("user", null);
     setToken("");
     setCookie("token", null);
+  };
 
-    // TODO clear cookie
+  const register = (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string
+  ) => {
+    const body = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+    };
+
+    return postRequest("auth/register", body).then((response) => {
+      setCookie("user", email);
+      setCookie("token", response.token);
+      setToken(response.token);
+      setUser(email);
+    });
   };
 
   const value = {
@@ -35,6 +54,7 @@ export const AuthProvider = ({ children }) => {
     user,
     login,
     logout,
+    register,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

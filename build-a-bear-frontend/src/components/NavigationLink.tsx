@@ -4,7 +4,7 @@ const NavigationLink = ({ linkTo, style }: NavigationLinkProps) => {
   const navigate = useNavigate();
   return (
     <li
-      className={`${style} cursor-pointer p-2 capitalize rounded-xl hover:bg-purple hover:text-maize`}
+      className={`${style} cursor-pointer p-2 rounded-xl hover:bg-purple hover:text-maize`}
       onClick={() => {
         navigate(`/${linkTo}`);
       }}

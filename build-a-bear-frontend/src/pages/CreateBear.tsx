@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import DisplayRow from "../components/DisplayRow";
 import DropdownSelect from "../components/DropdownSelect";
@@ -15,6 +16,7 @@ import {
 } from "../interfaces/IBearProps";
 
 const CreateBear = () => {
+  const navigate = useNavigate();
   const { token } = useAuth();
   const { getRequest, postRequest } = useAxios();
   const [colors, setColors] = useState<IColor[] | null>(null);
@@ -31,9 +33,13 @@ const CreateBear = () => {
     furPattern: "",
     outfit: "",
   });
+  const [showMsg, setShowMsg] = useState<boolean>(false);
 
-  const containsNullValue = (obj) => {
-    return Object.values(obj).some((value) => value === null);
+  const showError = () => {
+    setShowMsg(true);
+    setTimeout(() => {
+      setShowMsg(false);
+    }, 3000);
   };
 
   const fetch: Fetch = (url, setFunction) => {
@@ -43,6 +49,17 @@ const CreateBear = () => {
   };
 
   const post: BuildBear = (url) => {
+    if (
+      formRef.current.name === "" ||
+      formRef.current.color === "" ||
+      formRef.current.voice === "" ||
+      formRef.current.furType === "" ||
+      formRef.current.furPattern === "" ||
+      formRef.current.outfit === ""
+    ) {
+      showError();
+      return;
+    }
     const params = {
       name: formRef.current.name,
       color: formRef.current.color,
@@ -51,15 +68,19 @@ const CreateBear = () => {
       furPattern: formRef.current.furPattern,
       outfit: formRef.current.outfit,
     };
-    if (containsNullValue(params)) {
-      // do something to alert user
-      console.log("Do something to alert user form is not valid");
-      return;
-    } else {
-      postRequest(url, params, token).then((response) => {
-        //console.log(response);
+    postRequest(url, params, token)
+      .then((response) => {
+        console.log(response);
+        navigate(`/bears/${response.id}`);
+      })
+      .catch((err) => {
+        if (err.message.includes("status code 403")) {
+          navigate("/login");
+        } else if (err.message.includes("status code 404")) {
+          showError();
+        }
+        console.error("Failed to create bear, ", err.message);
       });
-    }
   };
 
   useEffect(() => {
@@ -80,6 +101,9 @@ const CreateBear = () => {
         Build-a-bear
       </h1>
       <div className="border-2 bg-maize text-purple font-extrabold border-purple rounded-lg p-12 w-1/2">
+        <p className="h-10 text-red-900 font-extrabold">
+          {showMsg ? "Fill in all fields" : ""}
+        </p>
         <FieldInput
           label={"Name"}
           content={""}

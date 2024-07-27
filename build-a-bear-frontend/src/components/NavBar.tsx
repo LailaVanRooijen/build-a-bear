@@ -13,13 +13,13 @@ const NavBar: React.FC<NavBarProps> = ({ style }) => {
         className={`${style} grid grid-cols-12 shadow-bottom bg-maize text-purple font-bold text-xl text-center tracking-wider p-4 gap-6 items-center font-comforta tracking-wider`}
       >
         <Logo style={"h-20 col-span-4"} />
-        <NavigationLink linkTo={"build-a-bear"} style={"col-span-2"} />
-        <NavigationLink linkTo={"buy-a-bear"} style={"col-span-2"} />
-        <NavigationLink linkTo={"home"} style={"col-span-2"} />
+        <NavigationLink linkTo={"Build-a-bear"} style={"col-span-2"} />
+        <NavigationLink linkTo={"Pick-a-bear"} style={"col-span-2"} />
+        <NavigationLink linkTo={"Home"} style={"col-span-2"} />
         {user != null ? (
           <NavigationLink linkTo={"logout"} style={"col-span-2"} />
         ) : (
-          <NavigationLink linkTo={"login"} style={"col-span-2"} />
+          <NavigationLink linkTo={"Login"} style={"col-span-2"} />
         )}
       </ul>
     </>

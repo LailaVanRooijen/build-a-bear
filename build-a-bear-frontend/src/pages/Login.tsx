@@ -13,9 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState<string>();
   const [showMsg, setShowMsg] = useState<boolean>(false);
 
-  useEffect(() => {
-    // console.log(token);
-  }, [token, showMsg]);
+  useEffect(() => {}, [token, showMsg]);
 
   const showError = () => {
     setShowMsg(true);
@@ -26,8 +24,16 @@ const Login = () => {
 
   const handleLogin = () => {
     login(email, password)
-      .then(navigate("/build-a-bear"))
-      .catch((err) => showError());
+      .then((response) => {
+        console.log(response);
+        if (response === undefined) {
+          navigate("/build-a-bear");
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+        showError();
+      });
   };
   return (
     <Page style={"flex flex-row justify-center items-center"}>
