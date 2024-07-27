@@ -19,7 +19,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   @Override
-  public JwtAuthenticationResponse signup(registerDto request) {
+  public JwtAuthenticationResponse register(registerDto request) {
     var user =
         User.builder()
             .firstName(request.getFirstName())
@@ -34,7 +34,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @Override
-  public JwtAuthenticationResponse signin(loginDto request) {
+  public JwtAuthenticationResponse login(loginDto request) {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
     var user =

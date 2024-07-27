@@ -15,11 +15,11 @@ public class AuthenticationController {
 
   @PostMapping("/register")
   public ResponseEntity<JwtAuthenticationResponse> register(@RequestBody registerDto request) {
-    return ResponseEntity.ok(authenticationService.signup(request));
+    return ResponseEntity.ok(authenticationService.register(request));
   }
 
   @PostMapping("/login")
   public ResponseEntity<JwtAuthenticationResponse> login(@RequestBody loginDto request) {
-    return ResponseEntity.ok(authenticationService.signin(request));
+    return ResponseEntity.ok(authenticationService.login(request));
   }
 }

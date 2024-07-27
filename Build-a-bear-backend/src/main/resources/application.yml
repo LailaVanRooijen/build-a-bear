@@ -23,3 +23,6 @@ client: http://localhost:5173
 token:
   signing:
     key: 413F3138472B4B6250655368566D5970337336763879244226452948404D6351
+security:
+  username: admin
+  password: secure

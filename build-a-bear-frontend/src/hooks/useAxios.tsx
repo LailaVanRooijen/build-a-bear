@@ -9,25 +9,25 @@ export default function useAxios(): AxiosProps {
         params,
         paramsSerializer: { indexes: null },
       })
-      .then((response) => response.data)
-      .catch((err) => console.error(err));
+      .then((response) => response.data);
   };
 
   const postRequest = (path, data, token) => {
-    return axios
-      .post(URL + path, data, { headers: createHeader(token) })
-      .then((response) => response.data)
-      .catch((err) => console.error(err));
+    if (token) {
+      return axios
+        .post(URL + path, data, { headers: createHeader(token) })
+        .then((response) => response.data);
+    } else {
+      return axios.post(URL + path, data).then((response) => response.data);
+    }
   };
 
   const patchRequest = (path, patchBody) => {
-    return axios
-      .patch(URL + path, patchBody, {})
-      .catch((err) => console.error(err));
+    return axios.patch(URL + path, patchBody, {});
   };
 
   const deleteRequest = (path, id) => {
-    return axios.delete(URL + path).catch((err) => console.error(err));
+    return axios.delete(URL + path);
   };
 
   return {
@@ -45,18 +45,11 @@ const createHeader = (token) => {
       "Content-Type": "application/json",
     };
   } else {
-    return {
-      "Content-Type": "application/json",
-    };
+    return {};
   }
 };
 
 interface AxiosProps {
   getRequest: (path: string, params?: {}, token?: string) => Promise<Any>;
-  postRequest: (
-    path: string,
-    postBody?: {},
-    token?: {},
-    token?: string
-  ) => Promise<Any>;
+  postRequest: (path: string, data?: {}, token?: string) => Promise<Any>;
 }

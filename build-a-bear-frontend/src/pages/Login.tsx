@@ -9,15 +9,25 @@ const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const { token } = useAuth();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
+  const [showMsg, setShowMsg] = useState<boolean>(false);
 
   useEffect(() => {
     // console.log(token);
-  }, [token]);
+  }, [token, showMsg]);
+
+  const showError = () => {
+    setShowMsg(true);
+    setTimeout(() => {
+      setShowMsg(false);
+    }, 3000);
+  };
 
   const handleLogin = () => {
-    login(email, password);
+    login(email, password)
+      .then(navigate("/build-a-bear"))
+      .catch((err) => showError());
   };
   return (
     <Page style={"flex flex-row justify-center items-center"}>
@@ -25,6 +35,9 @@ const Login = () => {
         <h2 className="font-extrabold text-xl bg-purple text-maize p-2 border-t-2 border-x-2 border-maize min-h-16 flex flex-row items-center justify-center">
           Login
         </h2>
+        <p className="text-center text-red-900 p-2 min-h-10">
+          {showMsg && "Invalid email or password"}
+        </p>
         <div className="w-[500px]">
           <FieldInput
             label={"email"}

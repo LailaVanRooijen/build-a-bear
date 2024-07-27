@@ -1,7 +1,7 @@
 package com.lvr.Build.a.bear.auth;
 
 public interface AuthenticationService {
-  JwtAuthenticationResponse signup(registerDto request);
+  JwtAuthenticationResponse register(registerDto request);
 
-  JwtAuthenticationResponse signin(loginDto request);
+  JwtAuthenticationResponse login(loginDto request);
 }

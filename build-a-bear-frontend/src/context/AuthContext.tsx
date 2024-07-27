@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import useAxios from "../hooks/useAxios";
 
 const AuthContext = createContext();
@@ -8,28 +7,32 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(getCookie("token") || null);
-  const [user, setUser] = useState(null); //TODO
-  const navigate = useNavigate();
+  const [user, setUser] = useState(getCookie("user") || null);
 
   const login = (email: string, password: string) => {
     const body = { email: email, password: password };
     const { postRequest } = useAxios();
-    postRequest("auth/login", body).then((response) => {
-      console.log(response);
+
+    return postRequest("auth/login", body).then((response) => {
+      setCookie("user", email);
       setCookie("token", response.token);
       setToken(response.token);
+      setUser(email);
     });
   };
 
   const logout = () => {
     setUser(null);
+    setCookie("user", null);
     setToken("");
+    setCookie("token", null);
+
     // TODO clear cookie
-    navigate("/Login");
   };
 
   const value = {
     token,
+    user,
     login,
     logout,
   };
