@@ -84,6 +84,7 @@ const Register = () => {
             content={""}
             style={"space-x-10 my-3  mx-4"}
             bgAndTxt={"bg-purple text-maize"}
+            type={"password"}
             handleChange={(value) => {
               setPassword(value);
             }}
@@ -93,6 +94,7 @@ const Register = () => {
             content={""}
             style={"space-x-10 my-3 mx-4"}
             bgAndTxt={"bg-purple text-maize"}
+            type={"password"}
             handleChange={(value) => {
               setComfirmPassword(value);
             }}
