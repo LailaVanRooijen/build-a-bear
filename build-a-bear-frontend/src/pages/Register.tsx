@@ -26,18 +26,24 @@ const Register = () => {
   };
 
   const handleRegister = () => {
-    if (password !== comfirmPassword) {
-      setErrorMsg("passwords don't match");
+    if (
+      firstName === "" ||
+      firstName === undefined ||
+      lastName === "" ||
+      lastName === undefined ||
+      email === "" ||
+      email === undefined ||
+      password === "" ||
+      password === undefined ||
+      comfirmPassword === "" ||
+      comfirmPassword === undefined
+    ) {
+      setErrorMsg("Fill in all fields");
       showError();
       return;
     }
-    if (
-      firstName === "" ||
-      lastName === "" ||
-      email === "" ||
-      password === "" ||
-      comfirmPassword === ""
-    ) {
+    if (password !== comfirmPassword) {
+      setErrorMsg("passwords don't match");
       showError();
       return;
     }

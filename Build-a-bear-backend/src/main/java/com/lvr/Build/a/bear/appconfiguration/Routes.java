@@ -9,5 +9,6 @@ public class Routes {
   public static final String OUTFITS = BASE_ROUTE + "outfits";
   public static final String FURPATTERNS = BASE_ROUTE + "fur-patterns";
   public static final String AUTH = BASE_ROUTE + "auth";
+  public static final String IMAGES = BASE_ROUTE + "images";
   // public static final String  = BASE_ROUTE + "";
 }
