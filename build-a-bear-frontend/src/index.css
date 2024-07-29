@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Add this to your global CSS file */
 input[type="checkbox"]:checked::after {
   content: var(--checkmark-content);
 }
