@@ -32,6 +32,7 @@ const CreateBear = () => {
     furType: "",
     furPattern: "",
     outfit: "",
+    image: "",
   });
   const [showMsg, setShowMsg] = useState<boolean>(false);
 
@@ -55,7 +56,8 @@ const CreateBear = () => {
       formRef.current.voice === "" ||
       formRef.current.furType === "" ||
       formRef.current.furPattern === "" ||
-      formRef.current.outfit === ""
+      formRef.current.outfit === "" ||
+      formRef.current.image === ""
     ) {
       showError();
       return;
@@ -67,6 +69,7 @@ const CreateBear = () => {
       furType: formRef.current.furType,
       furPattern: formRef.current.furPattern,
       outfit: formRef.current.outfit,
+      image: formRef.current.image,
     };
     postRequest(url, params, token)
       .then((response) => {
@@ -104,6 +107,15 @@ const CreateBear = () => {
         <p className="h-10 text-red-900 font-extrabold">
           {showMsg ? "Fill in all fields" : ""}
         </p>
+        <FieldInput
+          label={"Image"}
+          type="file"
+          style={""}
+          bgAndTxt={""}
+          handleChange={(value) => {
+            formRef.current.image = value;
+          }}
+        />
         <FieldInput
           label={"Name"}
           content={""}
