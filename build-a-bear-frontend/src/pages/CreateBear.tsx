@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import DisplayRow from "../components/DisplayRow";
 import DropdownSelect from "../components/DropdownSelect";
 import FieldInput from "../components/FieldInput";
+import ImageUpload from "../components/ImageUpload";
 import Page from "../components/Page";
 import { useAuth } from "../context/AuthContext";
 import useAxios from "../hooks/useAxios";
@@ -25,6 +26,7 @@ const CreateBear = () => {
   const [furPatterns, setFurPatterns] = useState<IFurPattern[] | null>(null);
   const [outfits, setOutfits] = useState<IOutfit[] | null>(null);
   const [selectedOutfit, setSelectedOutfit] = useState<IOutfit | null>(null);
+  const [image, setImage] = useState<>(null);
   const formRef = useRef<Form>({
     name: "",
     color: "",
@@ -32,7 +34,6 @@ const CreateBear = () => {
     furType: "",
     furPattern: "",
     outfit: "",
-    image: "",
   });
   const [showMsg, setShowMsg] = useState<boolean>(false);
 
@@ -56,8 +57,7 @@ const CreateBear = () => {
       formRef.current.voice === "" ||
       formRef.current.furType === "" ||
       formRef.current.furPattern === "" ||
-      formRef.current.outfit === "" ||
-      formRef.current.image === ""
+      formRef.current.outfit === ""
     ) {
       showError();
       return;
@@ -69,7 +69,6 @@ const CreateBear = () => {
       furType: formRef.current.furType,
       furPattern: formRef.current.furPattern,
       outfit: formRef.current.outfit,
-      image: formRef.current.image,
     };
     postRequest(url, params, token)
       .then((response) => {
@@ -84,6 +83,10 @@ const CreateBear = () => {
         }
         console.error("Failed to create bear, ", err.message);
       });
+  };
+
+  const postImage = (image) => {
+    console.log(image);
   };
 
   useEffect(() => {
@@ -107,15 +110,7 @@ const CreateBear = () => {
         <p className="h-10 text-red-900 font-extrabold">
           {showMsg ? "Fill in all fields" : ""}
         </p>
-        <FieldInput
-          label={"Image"}
-          type="file"
-          style={""}
-          bgAndTxt={""}
-          handleChange={(value) => {
-            formRef.current.image = value;
-          }}
-        />
+        <ImageUpload />
         <FieldInput
           label={"Name"}
           content={""}
