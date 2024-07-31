@@ -27,7 +27,7 @@ const Bears = () => {
   const refFilters = useRef<{ [key: string]: string }>({});
 
   const fetch: Fetch = (url, params, setFunction) => {
-    getRequest(url, params).then((response) => {
+    getRequest(url, params, null).then((response) => {
       setFunction(response);
     });
   };

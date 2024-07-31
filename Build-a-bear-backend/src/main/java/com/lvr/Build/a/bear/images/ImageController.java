@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(IMAGES)
+@CrossOrigin(origins = {"${client}"})
 @RequiredArgsConstructor
 public class ImageController {
   private final ImageService imageService;

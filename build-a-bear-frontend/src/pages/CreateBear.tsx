@@ -85,10 +85,6 @@ const CreateBear = () => {
       });
   };
 
-  const postImage = (image) => {
-    console.log(image);
-  };
-
   useEffect(() => {
     fetch<IColor>("colors", setColors);
     fetch<IVoice>("voices", setVoices);

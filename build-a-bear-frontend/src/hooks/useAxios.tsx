@@ -3,10 +3,12 @@ import axios from "axios";
 const URL = "http://localhost:8080/api/v1/";
 
 export default function useAxios(): AxiosProps {
-  const getRequest = (path, params) => {
+  const getRequest = (path, params, token) => {
+    const headers = createHeader(token);
     return axios
       .get(URL + path, {
         params,
+        headers,
         paramsSerializer: { indexes: null },
       })
       .then((response) => response.data);
@@ -50,6 +52,6 @@ const createHeader = (token) => {
 };
 
 interface AxiosProps {
-  getRequest: (path: string, params?: {}, token?: string) => Promise<Any>;
-  postRequest: (path: string, data?: {}, token?: string) => Promise<Any>;
+  getRequest: (path: string, params?: {}, token?: string) => Promise<any>;
+  postRequest: (path: string, data?: {}, token?: string) => Promise<any>;
 }
