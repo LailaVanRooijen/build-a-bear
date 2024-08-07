@@ -4,7 +4,7 @@ import useAxios from "../hooks/useAxios";
 
 const ImageUpload = () => {
   const { getRequest, postRequest } = useAxios();
-  const [image, setImage] = useState();
+  const [imageSrc, setImageSrc] = useState<string>("");
   const { token } = useAuth();
 
   const fetch: Fetch = (url, params, token) => {
@@ -14,16 +14,34 @@ const ImageUpload = () => {
     });
   };
 
+  const handleChange = () => {
+    const file = event?.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageSrc(reader.result);
+        getImage(file);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   useEffect(() => {
     fetch("images/paw.png", {}, token);
   }, [token]);
 
   return (
     <>
-      <div className="border-2 rounded-lg border-black h-48 w-56 m-2">
-        <img src={""} alt="" />
+      <div className="border-2 rounded-lg border-black h-48 w-56 m-2 flex items-center justify-center p-2">
+        <img src={imageSrc.toString()} className="h-full" />
       </div>
-      <input type="file" />
+      <input
+        type="file"
+        id="img"
+        name="img"
+        accept="image/*"
+        onChange={handleChange}
+      />
     </>
   );
 };
